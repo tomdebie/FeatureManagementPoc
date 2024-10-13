@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureManagementPoc.Web", "FeatureManagementPoc.Web\FeatureManagementPoc.Web.csproj", "{7EE2CBE7-F483-4BF7-B5C2-04738B553DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureManagementPoc.Web", "FeatureManagementPoc.Web\FeatureManagementPoc.Web.csproj", "{7EE2CBE7-F483-4BF7-B5C2-04738B553DDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

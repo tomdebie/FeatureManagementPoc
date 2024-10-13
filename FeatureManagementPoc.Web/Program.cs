@@ -1,3 +1,6 @@
+using FeatureManagementPoc.Web;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,13 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHealthChecks();
 builder.Services.AddFeatureManagement(builder.Configuration.GetSection("Features"));
+builder.Services.AddScoped<CustomRouteValueTransformer>();
 
-builder.Services.AddApiVersioning(options =>
-{
-    options.ReportApiVersions = true;
-    options.DefaultApiVersion = new Asp.Versioning.ApiVersion(2, 0);
-});
 
 var app = builder.Build();
 
@@ -30,8 +30,26 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(routes =>
+{
+    routes.MapControllerRoute(
+        name: "areas",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+    routes.MapDynamicControllerRoute<CustomRouteValueTransformer>("{controller=Home}/{action=Index}/{id?}");
+    routes.MapHealthChecks("/_health", new HealthCheckOptions
+    {
+        AllowCachingResponses = false,
+        ResultStatusCodes =
+                {
+                    [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                    [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                    [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                }
+    }).ShortCircuit();
+});
+
+//app.MapDynamicControllerRoute<CustomTransformer>("{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -5,8 +5,7 @@ using System.Diagnostics;
 
 namespace FeatureManagementPoc.Web.Controllers
 {
-    [ApiController]
-    [ApiVersion("1.0")]
+    [Area("V2")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,7 +17,7 @@ namespace FeatureManagementPoc.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index", "V2");
         }
 
         public IActionResult Privacy()
