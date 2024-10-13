@@ -33,6 +33,7 @@ public class CustomRouteValueTransformer : DynamicRouteValueTransformer
             {
                 HttpOnly = true,
                 Secure = true,
+                Expires = DateTime.Now.AddHours(6),
                 SameSite = SameSiteMode.Lax // Adjust based on your requirements
             });
         }
